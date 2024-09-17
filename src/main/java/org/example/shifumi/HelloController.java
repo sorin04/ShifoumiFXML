@@ -2,10 +2,9 @@ package org.example.shifumi;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-
 import java.util.Random;
 
-public class ShifumiController {
+public class HelloController {
     @FXML
     private Label scoreLabel;
 
@@ -32,20 +31,26 @@ public class ShifumiController {
         playRound("ciseaux");
     }
 
+    @FXML
+    protected void ResetButtonClick() {
+        resetGame();
+    }
+
     private void playRound(String playerChoice) {
         String computerChoice = choices[random.nextInt(choices.length)];
-        resultLabel.setText("L'ordinateur a choisi : " + computerChoice);
+        String result = "L'ordinateur a choisi : " + computerChoice + "\n";
 
         if (playerChoice.equals(computerChoice)) {
-            resultLabel.setText(resultLabel.getText() + "\nC'est une égalité !");
+            result += "C'est une égalité !";
         } else if (isPlayerWinner(playerChoice, computerChoice)) {
-            resultLabel.setText(resultLabel.getText() + "\nVous avez gagné !");
+            result += "Vous avez gagné !";
             playerScore++;
         } else {
-            resultLabel.setText(resultLabel.getText() + "\nL'ordinateur a gagné !");
+            result += "L'ordinateur a gagné !";
             computerScore++;
         }
 
+        resultLabel.setText(resultLabel.getText() + "\n" + result); // Ajout à l'historique
         updateScore();
     }
 
@@ -57,5 +62,12 @@ public class ShifumiController {
 
     private void updateScore() {
         scoreLabel.setText("Score: Joueur " + playerScore + " - Ordinateur " + computerScore);
+    }
+
+    private void resetGame() {
+        playerScore = 0;
+        computerScore = 0;
+        scoreLabel.setText("Score: Joueur 0 - Ordinateur 0");
+        resultLabel.setText("Faites votre choix : ");
     }
 }
